@@ -36,13 +36,13 @@ class Product:
 
     products = [ 
 
-        {"id":"1", "name":"TV", "description":"Best TV"}, 
+        {"id":"1", "name":"TV", "description":"Best TV", "price":1000}, 
 
-        {"id":"2", "name":"iPhone", "description":"Best iPhone"}, 
+        {"id":"2", "name":"iPhone", "description":"Best iPhone", "price":2000}, 
 
-        {"id":"3", "name":"Chromecast", "description":"Best Chromecast"}, 
+        {"id":"3", "name":"Chromecast", "description":"Best Chromecast", "price":3000}, 
 
-        {"id":"4", "name":"Glasses", "description":"Best Glasses"} 
+        {"id":"4", "name":"Glasses", "description":"Best Glasses", "price":3000} 
 
     ] 
 
@@ -135,3 +135,6 @@ class ProductCreateView(View):
             viewData["form"] = form 
 
             return render(request, self.template_name, viewData)
+        
+class ContactView(TemplateView):
+    template_name = 'pages/contact.html'

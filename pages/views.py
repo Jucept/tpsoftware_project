@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse 
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView 
 from django.views import View 
 from django import forms
+from django.urls import reverse
 
 # Create your views here.
 
@@ -25,7 +26,7 @@ class AboutPageView(TemplateView):
 
             "description": "This is an about page ...", 
 
-            "author": "Developed by: Your Name", 
+            "author": "Developed by: Julio César Posada", 
 
         }) 
 
@@ -36,13 +37,13 @@ class Product:
 
     products = [ 
 
-        {"id":"1", "name":"TV", "description":"Best TV", "price":1000}, 
+        {"id":"1", "name":"TV", "description":"Best TV", "price":100}, 
 
         {"id":"2", "name":"iPhone", "description":"Best iPhone", "price":2000}, 
 
         {"id":"3", "name":"Chromecast", "description":"Best Chromecast", "price":3000}, 
 
-        {"id":"4", "name":"Glasses", "description":"Best Glasses", "price":3000} 
+        {"id":"4", "name":"Glasses", "description":"Best Glasses", "price":50} 
 
     ] 
 
@@ -51,8 +52,6 @@ class Product:
 class ProductIndexView(View): 
 
     template_name = 'products/index.html' 
-
- 
 
     def get(self, request): 
 
@@ -73,26 +72,25 @@ class ProductShowView(View):
 
     template_name = 'products/show.html' 
 
- 
-
- 
-
     def get(self, request, id): 
 
         viewData = {} 
 
-        product = Product.products[int(id)-1] 
+        try:
+            product = Product.products[int(id) - 1]
 
-        viewData["title"] = product["name"] + " - Online Store" 
+            viewData["title"] = product["name"] + " - Online Store"
 
-        viewData["subtitle"] =  product["name"] + " - Product information" 
+            viewData["subtitle"] = product["name"] + " - Product information"
 
-        viewData["product"] = product 
+            viewData["product"] = product
 
- 
+            return render(request, self.template_name, viewData)
 
-        return render(request, self.template_name, viewData)
-    
+        except IndexError:
+
+            return HttpResponseRedirect(reverse('home')) 
+
 
 class ProductForm(forms.Form): 
     name = forms.CharField(required=True) 

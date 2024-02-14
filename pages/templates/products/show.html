@@ -24,8 +24,11 @@
 
         <h5 class="card-title"> 
 
-           {{product.name}} 
-
+          {% if product.price > 100%}
+            <div style="color: red;"> {{ product.name }}</div>
+          {% else %}
+            {{ product.name }}
+          {% endif %}
         </h5> 
         
         <p 
